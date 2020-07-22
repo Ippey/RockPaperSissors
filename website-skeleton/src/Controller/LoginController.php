@@ -26,7 +26,7 @@ class LoginController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('battle',['id' => $user->getId()]);
+            return $this->redirectToRoute('battle', ['id' => $user->getId()]);
         }
         return $this->render('base.html.twig', [
             'form' => $form->createView(),

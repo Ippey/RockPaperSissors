@@ -15,20 +15,19 @@ class ResultController extends AbstractController
      * @param $myResult
      * @return Response
      */
-    public function loginAction(User $user, $myResult)
+    public function resultAction(User $user, $myResult)
     {
         $beforePoint = $user->getPoint();
-        $cpuResult = rand(1,3);
+        $cpuResult = rand(1, 3);
         $cpuResultLog = new CpuResultLog();
         $cpuResultLog->setResult($cpuResult);
-        if (($myResult - $cpuResult) == -2 || ($myResult - $cpuResult) == 1){
-            // 勝時
+        if (($myResult - $cpuResult) == -2 || ($myResult - $cpuResult) == 1) {
             $user->setPoint($beforePoint + 5);
             $result = '勝ち';
-        } elseif (($myResult - $cpuResult) == 0){
+        } elseif (($myResult - $cpuResult) == 0) {
             $user->setPoint($beforePoint - 10);
             $result = '引き分け';
-        } else{
+        } else {
             $user->setPoint($beforePoint - 10);
             $result = '負け';
         }

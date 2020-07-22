@@ -36,7 +36,7 @@ class BattleController extends AbstractController
         $todaySissorsDatas = $cpuResultLogRep->findCountByResultAndToday(CpuResultLog::ID_SISSORS, $today->format('Y-m-d'));
         $totalNum = $todayRockDatas + $todayPaperDatas + $todaySissorsDatas;
 
-        if (!empty($totalNum)){
+        if (!empty($totalNum)) {
             $rockRate = $todayRockDatas / $totalNum * 100;
             $paperRate = $todayPaperDatas / $totalNum * 100;
             $sissorsRate = $todaySissorsDatas / $totalNum * 100;
