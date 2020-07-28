@@ -47,7 +47,9 @@ class BattleController extends AbstractController
 
         if ($form->isSubmitted()) {
             $myResult = $form['myResult']->getData();
-            return $this->redirectToRoute('result', ['id' => $user->getId(), 'myResult' => $myResult]);
+            if (!empty($myResult)) {
+                return $this->redirectToRoute('result', ['id' => $user->getId(), 'myResult' => $myResult]);
+            }
         }
         return $this->render('battle.html.twig', [
             'form' => $form->createView(),
