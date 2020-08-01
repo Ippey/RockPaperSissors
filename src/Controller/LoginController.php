@@ -21,7 +21,7 @@ class LoginController extends AbstractController
         $form = $this->createForm(UserForm::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && !empty($user->getName())) {
             $user->setPoint(100);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

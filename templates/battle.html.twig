@@ -11,7 +11,7 @@
     {{ form_start(form) }}
     {{ form_label(form.myResult) }}
     {{ form_widget(form.myResult) }}
-    <button type="submit">勝負</button>
+    <button type="submit" name="submit">勝負</button>
     {{ form_end(form) }}
     {% else %}
         <p>「{{ user.name }}」のポイントが10未満なのでじゃんけんできません</p>

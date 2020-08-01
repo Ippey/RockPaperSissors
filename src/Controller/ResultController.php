@@ -3,12 +3,20 @@ namespace App\Controller;
 
 use App\Entity\CpuResultLog;
 use App\Entity\User;
+use App\Service\JankenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ResultController extends AbstractController
 {
+    public $jankenService;
+
+    public function __construct(JankenService $jankenService)
+    {
+        $this->jankenService = $jankenService;
+    }
+
     /**
      * @Route(path="/result/{id}/{myResult}", name="result")
      * @param User $user
@@ -21,16 +29,10 @@ class ResultController extends AbstractController
         $cpuResult = rand(1, 3);
         $cpuResultLog = new CpuResultLog();
         $cpuResultLog->setResult($cpuResult);
-        if (($myResult - $cpuResult) == -2 || ($myResult - $cpuResult) == 1) {
-            $user->setPoint($beforePoint + 5);
-            $result = '勝ち';
-        } elseif (($myResult - $cpuResult) == 0) {
-            $user->setPoint($beforePoint - 10);
-            $result = '引き分け';
-        } else {
-            $user->setPoint($beforePoint - 10);
-            $result = '負け';
-        }
+
+        list($plusPoint, $result) = $this->jankenService->jankenAction($myResult, $cpuResult);
+        $user->setPoint($beforePoint + $plusPoint);
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($cpuResultLog);
         $em->flush();
