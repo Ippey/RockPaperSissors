@@ -17,7 +17,7 @@
         <p>「{{ user.name }}」のポイントが10未満なのでじゃんけんできません</p>
     {% endif %}
     <p>当日のじゃんけん傾向CPU</p>
-    <p>グー：{{ rockRate|number_format }}％　パー：{{ paperRate|number_format }}％　チョキ：{{ sissorsRate|number_format }}％</p>
+    <p id="result">グー：{{ rockRate|number_format }}％　パー：{{ paperRate|number_format }}％　チョキ：{{ sissorsRate|number_format }}％</p>
     <p>ユーザーポイント　　{{ user.point }}pt</p>
     <a href="{{ path('reset', {'id': user.id}) }}" class="button">リセット</a>
 {% endblock %}
