@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+</head>
+<body>
+    <p>本日CPUが選んだ手の割合</p>
+    <p>グー：{{goo}}％　チョキ：{{choki}}％　パー：{{par}}％</p>
+    <form action="/main" method="post">
+    <input type="radio" name="hand" value="0">グー</input>
+    <input type="radio" name="hand" value="1">チョキ</input>
+    <input type="radio" name="hand" value="2">パー</input>
+    <p><input type="submit" value="じゃんけんする" name="game"></input></p>
+    <input type="submit" value="ポイントをリセット" name="reset"></input>
+    </form>
+    
+    
+    
+    <p>{{Message}}</p>
+    <p>あなたの持ちポイント：{{currentPoint}}</p>
+</body>
+</html>
