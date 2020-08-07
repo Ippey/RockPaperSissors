@@ -5,7 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\ManagerRegistry;
 
 class ResultService extends AbstractController{
-    private $managerRegistry;
     //プレイヤーの手とCPUの手をもらうとゲーム結果を返す
     //見方：(プレイヤーの手(数値))-(CPUの手(数値))
     public function getResult(int $playerHand, int $cpuHand){
@@ -77,11 +76,7 @@ class ResultService extends AbstractController{
 
     }
 
-    public function __construct(ManagerRegistry $managerRegistry)
-    {
-        $this->managerRegistry = $managerRegistry;
-    }
-
+    
 
 }
 
