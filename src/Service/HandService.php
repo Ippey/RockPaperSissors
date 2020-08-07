@@ -3,7 +3,6 @@ namespace App\Service;
 use App\Entity\CPULogs;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Validator\Constraints\Date;
 
 class HandService extends AbstractController{
     //CPUの出す手を返す
@@ -22,6 +21,7 @@ class HandService extends AbstractController{
         $user = $this->getUser();
         $point = $user->getPoint() - 10;
         $user->setPoint($point);
+        $manager->flush();
         //CPULogsにCPUが選んだ手を追加
         $time = new DateTime("now");
         $cpulog = new CPULogs();
@@ -35,6 +35,7 @@ class HandService extends AbstractController{
 
         return $hand;
     }
+
     
     
 }

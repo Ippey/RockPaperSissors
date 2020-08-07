@@ -11,13 +11,13 @@
     <input type="radio" name="hand" value="0">グー</input>
     <input type="radio" name="hand" value="1">チョキ</input>
     <input type="radio" name="hand" value="2">パー</input>
-    <p><input type="submit" value="じゃんけんする" name="game"></input></p>
-    <input type="submit" value="ポイントをリセット" name="reset"></input>
+    <p><input type="submit" value="じゃんけんする" name="button"></input></p>
+    <input type="submit" value="ポイントをリセット" name="button"></input>
     </form>
     
     
     
     <p>{{Message}}</p>
-    <p>あなたの持ちポイント：{{currentPoint}}</p>
+    <p>あなたの持ちポイント：{{currentPoint.getPoint()}}</p>
 </body>
 </html>
