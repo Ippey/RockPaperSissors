@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}結果画面{% endblock %}</title>
+</head>
+<body>
+{% block body %}
+    <p>「{{ user.name }}」さんの{{ result }}</p>
+    <a href="{{ path('battle', {'id': user.id}) }}">じゃんけん画面へ戻る</a>
+{% endblock %}
+</body>
+</html>
