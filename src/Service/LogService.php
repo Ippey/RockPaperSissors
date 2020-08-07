@@ -2,13 +2,13 @@
 namespace App\Service;
 use DateTime;
 use App\Entity\CPULogs;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\AbstractType;
+use Doctrine\Persistence\ManagerRegistry;
 
-class LogService extends AbstractController{
+class LogService{
+    private ManagerRegistry $managerRegistry;
 
     public function getGooRate(){
-        $repository = $this->getDoctrine()->getRepository(CPULogs::class);
+        $repository = $this->managerRegistry->getRepository(CPULogs::class);
         $todayActions = count($repository->findBy(['date' => new DateTime('now')]));
         //このif文で0除算を回避
         if($todayActions == 0){
@@ -19,7 +19,7 @@ class LogService extends AbstractController{
     }
 
     public function getChokiRate(){
-        $repository = $this->getDoctrine()->getRepository(CPULogs::class);
+        $repository = $this->managerRegistry->getRepository(CPULogs::class);
         $todayActions = count($repository->findBy(['date' => new DateTime('now')]));
         //このif文で0除算を回避
         if($todayActions == 0){
@@ -29,7 +29,7 @@ class LogService extends AbstractController{
         return ((float)$chokis / (float)$todayActions) * 100;
     }
     public function getParRate(){
-        $repository = $this->getDoctrine()->getRepository(CPULogs::class);
+        $repository = $this->managerRegistry->getRepository(CPULogs::class);
         $todayActions = count($repository->findBy(['date' => new DateTime('now')]));
         //このif文で0除算を回避
         if($todayActions == 0){
@@ -37,6 +37,11 @@ class LogService extends AbstractController{
         }
         $pars = count($repository->findBy(['date' => new DateTime('now'), 'hand' => 2]));
         return ((float)$pars / (float)$todayActions) * 100;
+    }
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
     }
 
 

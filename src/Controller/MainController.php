@@ -21,54 +21,47 @@ class MainController extends AbstractController
     public function index(HandService $handservice, ResultService $resultService,
                           LogService $logService, Request $request){
         $playerhand = $request->request->get('hand');
+        $buttonMessage = $request->request->get('button');
+        echo $buttonMessage;
         $user = $this->getUser();
-        try{
-            $isReset = $_POST['reset'];
-        }
-        catch(ErrorException $error){
-            $isReset = false;
-        }
-    
-
-        if ($playerhand == null) {
+        $target = "main/index.html.twig";
+        $message = "";
+        if($playerhand == null) {
             //入力がないときは何もせずリダイレクト
-            return $this->render('main/index.html.twig', [
-                'Message' => 'グー、チョキ、パーのいずれかを選択してください。',
-                'goo' => $logService->getGooRate(),
-                'choki' => $logService->getChokiRate(),
-                'par' => $logService->getParRate(),
-                'currentPoint' => $user->getPoint(),
-            ]);
+            $message = 'グー、チョキ、パーのいずれかを選択してください。';
+            $target = "main/index.html.twig";
 
         }elseif ($user->getPoint() < 10) {
-            return $this->render('main/index.html.twig', [
-                'Message' => 'ポイントが不足しています。',
-                'goo' => $logService->getGooRate(),
-                'choki' => $logService->getChokiRate(),
-                'par' => $logService->getParRate(),
-                'currentPoint' => $user->getPoint(),
-            ]);
-        } else{
+            $target = "main/index.html.twig";
+            $message = "ポイントが不足しています。";
+            
+        } elseif($buttonMessage == "じゃんけんする"){
+            $buttonMessage = "";
+            $target = "result/index.html.twig";
             $cpuhand = $handservice->getHand();
             $result = $resultService->getResult($playerhand,$cpuhand);
-            $resultMessage = $result->getResultMessage();
-            $point = $result->getPoint();
-            return $this->render('result/index.html.twig', [
-                'resultMessage' => $resultMessage
-            ]);
+            $message = $result["resultMessage"];
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            
         }
-        if ($isReset == true) {
+        if ($buttonMessage == "ポイントをリセット") {
+            $buttonMessage = "";
+            $target = "main/index.html.twig";
             $user->setPoint(100);
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
-            $isReset = false;
-            return $this->render('main/index.html.twig', [
-                'Message' => 'ポイントをリセットしました。',
-                'goo' => $logService->getGooRate(),
-                'choki' => $logService->getChokiRate(),
-                'par' => $logService->getParRate(),
-                'currentPoint' => $user->getPoint(),
-            ]);
+            $message = 'ポイントをリセットしました。';
+                
         }
+
+        return $this->render($target, [
+            'Message' => $message,
+            'goo' => $logService->getGooRate(),
+            'choki' => $logService->getChokiRate(),
+            'par' => $logService->getParRate(),
+            'currentPoint' => $user,
+
+        ]);
     }
 }

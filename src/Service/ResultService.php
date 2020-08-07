@@ -2,8 +2,10 @@
 
 namespace App\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 
 class ResultService extends AbstractController{
+    private $managerRegistry;
     //プレイヤーの手とCPUの手をもらうとゲーム結果を返す
     //見方：(プレイヤーの手(数値))-(CPUの手(数値))
     public function getResult(int $playerHand, int $cpuHand){
@@ -34,7 +36,10 @@ class ResultService extends AbstractController{
 
         $point = $this->getPoint($result);
         $Message = $this->getResultMessage($result);
-        return new Result($point,$Message);
+        return array(
+               "point" => $point,
+               "resultMessage" => $Message
+        );
 
 
 
@@ -72,26 +77,11 @@ class ResultService extends AbstractController{
 
     }
 
-
-}
-
-class Result{
-
-    private int $point;
-    private string $ResultMessage;
-
-    public function __construct(int $point, string $resultmessage){
-        $this->point = $point;
-        $this->ResultMessage = $resultmessage;
-    }
-
-    public function getPoint(){
-        return $this->point;
-    }
-
-    public function getResultMessage(){
-        return $this->ResultMessage;
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
     }
 
 
 }
+
