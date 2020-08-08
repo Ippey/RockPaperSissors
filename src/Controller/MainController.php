@@ -9,29 +9,28 @@ use App\Service\HandService;
 use App\Service\ResultService;
 use App\Service\LogService;
 
-
-
 class MainController extends AbstractController
 {
     /**
      * @Route("/main", name="main")
      */
     
-    public function index(HandService $handservice, ResultService $resultService,
-                          LogService $logService, Request $request){
+    public function index(
+        HandService $handservice,
+        ResultService $resultService,
+        LogService $logService,
+        Request $request
+    ) {
         $playerhand = $request->request->get('hand');
         $buttonMessage = $request->request->get('button');
         $user = $this->getUser();
         $message = "";
-        if($playerhand == null) {
+        if ($playerhand == null) {
             //入力がないときは何もせずリダイレクト
             $message = 'グー、チョキ、パーのいずれかを選択してください。';
-
-        }elseif ($user->getPoint() < 10) {
-            
+        } elseif ($user->getPoint() < 10) {
             $message = "ポイントが不足しています。";
-            
-        } elseif($buttonMessage == "じゃんけんする"){
+        } elseif ($buttonMessage == "じゃんけんする") {
             $buttonMessage = "";
             
             //現在のユーザーから10ポイント引く
@@ -39,11 +38,10 @@ class MainController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
             $cpuhand = $handservice->getHand();
-            $result = $resultService->getResult($playerhand,$cpuhand);
+            $result = $resultService->getResult($playerhand, $cpuhand);
             $message = $result["resultMessage"];
             $user->setPoint($user->getPoint() + $result["point"]);
             $manager->flush();
-            
         }
         if ($buttonMessage == "ポイントをリセット") {
             $buttonMessage = "";
@@ -52,7 +50,6 @@ class MainController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
             $message = 'ポイントをリセットしました。';
-                
         }
 
         return $this->render("main/index.html.twig", [
