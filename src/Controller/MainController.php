@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Service\HandService;
 use App\Service\ResultService;
 use App\Service\LogService;
+use App\Entity\CPULogs;
+use DateTime;
 
 class MainController extends AbstractController
 {
@@ -38,6 +40,17 @@ class MainController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
             $cpuhand = $handservice->getHand();
+            
+            //CPULogsにCPUが選んだ手を追加
+            $time = new DateTime("now");
+            $cpulog = new CPULogs();
+            $cpulog->setDate($time);
+            $cpulog->setHand($cpuhand);
+            //ログに決めた手を追加してDBを更新
+            $manager->persist($cpulog);
+            $manager->flush();
+
+
             $result = $resultService->getResult($playerhand, $cpuhand);
             $message = $result["resultMessage"];
             $user->setPoint($user->getPoint() + $result["point"]);

@@ -13,7 +13,7 @@ class ResultService
         //getResult内部で勝利は0、あいこは1、負けは2として扱う
         //あいこパターン
         //1-1,2-2,3-3(プレイヤーとCPUの手が同じ)
-        if ($playerHand==$cpuHand) {
+        if ($playerHand == $cpuHand) {
             $result = 1;
         } elseif ($playerHand == 0 && $cpuHand == 1 ||
                $playerHand == 1 && $cpuHand == 2 ||
