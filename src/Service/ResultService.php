@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Service;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 
-class ResultService extends AbstractController{
+class ResultService {
+
     //プレイヤーの手とCPUの手をもらうとゲーム結果を返す
     //見方：(プレイヤーの手(数値))-(CPUの手(数値))
     public function getResult(int $playerHand, int $cpuHand){
@@ -48,13 +47,7 @@ class ResultService extends AbstractController{
 
     private function getPoint(int $result){
         if($result == 0){
-            //ユーザーが勝った時に15ポイント足す
-            $user = $this->getUser();
-            $point = $user->getPoint() + 15;
-            $user->setPoint($point);
-            $manager = $this->getDoctrine()->getManager();
-            $manager->flush();
-            
+            //勝利時に15、それ以外で0を返す
             return 15;
         }
         else{
@@ -75,6 +68,8 @@ class ResultService extends AbstractController{
         }
 
     }
+
+   
 
     
 
