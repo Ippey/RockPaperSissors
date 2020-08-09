@@ -8,23 +8,23 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Service\HandService;
 use App\Service\ResultService;
 use App\Service\LogService;
-use App\Entity\CPULogs;
-use DateTime;
 
 class MainController extends AbstractController
 {
     /**
-     * @Route("/main", name="main")
+     * @Route("/main/{hand}", name="main")
      */
     
     public function index(
         HandService $handservice,
         ResultService $resultService,
         LogService $logService,
-        Request $request
+        Request $request,
+        $hand = -1
     ) {
         $playerhand = $request->request->get('hand');
         $buttonMessage = $request->request->get('button');
+        $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
         $user = $this->getUser();
         $message = "";
         if ($playerhand == null) {
@@ -39,18 +39,8 @@ class MainController extends AbstractController
             $user->setPoint($user->getPoint() - 10);
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
-            $cpuhand = $handservice->getHand();
+            $cpuhand = $handservice->getHand($hand);
             
-            //CPULogsにCPUが選んだ手を追加
-            $time = new DateTime("now");
-            $cpulog = new CPULogs();
-            $cpulog->setDate($time);
-            $cpulog->setHand($cpuhand);
-            //ログに決めた手を追加してDBを更新
-            $manager->persist($cpulog);
-            $manager->flush();
-
-
             $result = $resultService->getResult($playerhand, $cpuhand);
             $message = $result["resultMessage"];
             $user->setPoint($user->getPoint() + $result["point"]);
@@ -71,6 +61,7 @@ class MainController extends AbstractController
             'choki' => $logService->getChokiRate(),
             'par' => $logService->getParRate(),
             'currentPoint' => $user->getPoint(),
+            'Hand' => $hand,
 
         ]);
     }

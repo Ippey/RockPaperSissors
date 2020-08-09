@@ -31,6 +31,7 @@ class RegistrationController extends AbstractController
             );
 
             $entityManager = $this->getDoctrine()->getManager();
+            //TODO: 同一のユーザー名が来たらメッセージを出してエラーを回避
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email

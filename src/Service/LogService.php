@@ -9,35 +9,35 @@ class LogService
 {
     private ManagerRegistry $managerRegistry;
 
-    public function getGooRate() {
+    public function getGooRate(string $date="now") {
         $repository = $this->managerRegistry->getRepository(CPULogs::class);
-        $todayActions = count($repository->findBy(['date' => new DateTime('now')]));
+        $todayActions = count($repository->findBy(['date' => new DateTime($date)]));
         //このif文で0除算を回避
         if ($todayActions == 0) {
             return 0;
         }
-        $goos = count($repository->findBy(['date' => new DateTime('now'), 'hand' => 0]));
+        $goos = count($repository->findBy(['date' => new DateTime($date), 'hand' => 0]));
         return (float)$goos / ((float)$todayActions) * 100;
     }
 
-    public function getChokiRate() {
+    public function getChokiRate(string $date="now") {
         $repository = $this->managerRegistry->getRepository(CPULogs::class);
-        $todayActions = count($repository->findBy(['date' => new DateTime('now')]));
+        $todayActions = count($repository->findBy(['date' => new DateTime($date)]));
         //このif文で0除算を回避
         if ($todayActions == 0) {
             return 0;
         }
-        $chokis = count($repository->findBy(['date' => new DateTime('now'), 'hand' => 1]));
+        $chokis = count($repository->findBy(['date' => new DateTime($date), 'hand' => 1]));
         return ((float)$chokis / (float)$todayActions) * 100;
     }
-    public function getParRate() {
+    public function getParRate(string $date="now") {
         $repository = $this->managerRegistry->getRepository(CPULogs::class);
-        $todayActions = count($repository->findBy(['date' => new DateTime('now')]));
+        $todayActions = count($repository->findBy(['date' => new DateTime($date)]));
         //このif文で0除算を回避
         if ($todayActions == 0) {
             return 0;
         }
-        $pars = count($repository->findBy(['date' => new DateTime('now'), 'hand' => 2]));
+        $pars = count($repository->findBy(['date' => new DateTime($date), 'hand' => 2]));
         return ((float)$pars / (float)$todayActions) * 100;
     }
 

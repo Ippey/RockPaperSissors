@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CPULogsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=CPULogsRepository::class)
@@ -26,6 +27,12 @@ class CPULogs
      * @ORM\Column(type="date")
      */
     private $date;
+
+    public function __construct(int $hand,DateTime $date)
+    {
+        $this->hand = $hand;
+        $this->date = $date;
+    }
 
     public function getId(): ?int
     {
