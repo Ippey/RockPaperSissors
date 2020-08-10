@@ -12,7 +12,7 @@ use App\Service\LogService;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/main/{hand}", name="main")
+     * @Route("/main/{cpu}", name="main")
      */
     
     public function index(
@@ -20,8 +20,9 @@ class MainController extends AbstractController
         ResultService $resultService,
         LogService $logService,
         Request $request,
-        $hand = -1
-    ) {
+        $cpu = -1
+    ) 
+    {
         $playerhand = $request->request->get('hand');
         $buttonMessage = $request->request->get('button');
         $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
@@ -39,7 +40,7 @@ class MainController extends AbstractController
             $user->setPoint($user->getPoint() - 10);
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
-            $cpuhand = $handservice->getHand($hand);
+            $cpuhand = $handservice->getHand($cpu);
             
             $result = $resultService->getResult($playerhand, $cpuhand);
             $message = $result["resultMessage"];
@@ -61,7 +62,7 @@ class MainController extends AbstractController
             'choki' => $logService->getChokiRate(),
             'par' => $logService->getParRate(),
             'currentPoint' => $user->getPoint(),
-            'Hand' => $hand,
+            'cpu' => $cpu,
 
         ]);
     }
