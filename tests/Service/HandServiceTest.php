@@ -7,30 +7,24 @@ use DateTime;
 use App\Entity\CPULogs;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @dataProvider provideTestCase
- */
-class HandServiceTest extends TestCase{
-    public function HandTest($testCase)
+class HandServiceTest extends TestCase
+{
+
+    public function test_handservice()
     {
-        $manager = new ManagerRegistry();
-        $testTarget = new HandService($manager);
-        $hand = $testTarget->getHand($testCase[0],$testCase[1]);
-        $date = $testCase[1];
+        for ($i=0; $i < 3; $i++) { 
+            
+            $manager = new ManagerRegistry();
+            $testTarget = new HandService($manager);
+            $hand = $testTarget->getHand();
+            $date = new DateTime("now");
 
-        $repositry = $manager->getRepository(CPULogs::class);
-        $result = $repositry->findBy(["hand" => $hand, "date" => $date]);
-        $this->assertNotEmpty($result);
-
+            $repositry = $manager->getRepository(CPULogs::class);
+            $result = $repositry->findBy(["hand" => $hand, "date" => $date]);
+            $this->assertNotEmpty($result);
+        }
         
     }
 
-    public function provideTestCase()
-    {
-        return [
-            [0, "now"],
-            [1, "now"],
-            [2, "now"],
-        ];
-    }
+    
 }

@@ -8,10 +8,11 @@ use App\Entity\CPULogs;
 use DateTime;
 
 /**
- * @dataProvider provideTestCase
+ *@dataProvider provideTestCase
  */
-class LogServiceTest extends TestCase{
-    public function LogServiceTest($testCase)
+class LogServiceTest extends TestCase
+{
+    public function test_LogService($testCase)
     {
         $manager = new ManagerRegistry();
         $repository = $manager->getRepository(CPULogs::class);
@@ -37,12 +38,12 @@ class LogServiceTest extends TestCase{
     }
 
     public function provideTestCase()
-{
+    {
     return [
         ["2020-08-07"],
         ["now"],
         ["1000-12-15"] //0件の時
     ];
-}
+    }
 }
 

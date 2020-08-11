@@ -5,7 +5,7 @@ use App\Service\ResultService;
 use PHPUnit\Framework\TestCase;
 
 class ResultServiceTest extends TestCase{
-    public function TestResult()
+    public function testResult()
     {
         $testTarget = new ResultService();
 

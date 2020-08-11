@@ -12,15 +12,14 @@ use App\Service\LogService;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/main/{cpu}", name="main")
+     * @Route("/main", name="main")
      */
     
     public function index(
         HandService $handservice,
         ResultService $resultService,
         LogService $logService,
-        Request $request,
-        $cpu = -1
+        Request $request
     ) 
     {
         $playerhand = $request->request->get('hand');
@@ -40,7 +39,7 @@ class MainController extends AbstractController
             $user->setPoint($user->getPoint() - 10);
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
-            $cpuhand = $handservice->getHand($cpu);
+            $cpuhand = $handservice->getHand();
             
             $result = $resultService->getResult($playerhand, $cpuhand);
             $message = $result["resultMessage"];
@@ -61,8 +60,7 @@ class MainController extends AbstractController
             'goo' => $logService->getGooRate(),
             'choki' => $logService->getChokiRate(),
             'par' => $logService->getParRate(),
-            'currentPoint' => $user->getPoint(),
-            'cpu' => $cpu,
+            'currentPoint' => $user->getPoint()
 
         ]);
     }
