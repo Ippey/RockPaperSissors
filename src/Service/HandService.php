@@ -1,12 +1,14 @@
 <?php
+
 namespace App\Service;
 use DateTime;
 use App\Entity\CPULogs;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 class HandService
 {
-    private ManagerRegistry $managerRegistry;
+    private EntityManagerInterface $managerRegistry;
     //CPUの出す手を返す
     public function getHand(int $hand = -1, string $date="now")
     {
@@ -23,15 +25,14 @@ class HandService
         $cpulog = new CPULogs($hand, $time);
 
         //ログに決めた手を追加してDBを更新
-        $manager = $this->managerRegistry->getManager();
-        $manager->persist($cpulog);
-        $manager->flush();
+        $this->managerRegistry->persist($cpulog);
+        $this->managerRegistry->flush();
         
 
         return $hand;
     }
 
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(EntityManagerInterface $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }

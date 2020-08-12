@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Service;
 
 class ResultService
@@ -32,10 +31,10 @@ class ResultService
         }
 
         $point = $this->getPoint($result);
-        $Message = $this->getResultMessage($result);
+        $message = $this->getResultMessage($result);
         return array(
                "point" => $point,
-               "resultMessage" => $Message
+               "resultMessage" => $message
         );
     }
 
