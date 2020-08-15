@@ -1,6 +1,8 @@
 <?php
 //参考サイト：https://symfony.com/doc/current/testing/database.html
 namespace App\Tests\Service;
+require_once __DIR__.'/../vender/autoload.php';
+use Symfony\Component\Finder;
 use App\Service\HandService;
 use DateTime;
 use App\Entity\CPULogs;
