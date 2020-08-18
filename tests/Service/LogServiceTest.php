@@ -13,9 +13,9 @@ class LogServiceTest extends KernelTestCase
         //最後の物は0件の時を検証する用
         $testCase = array("2020-08-07", "now", "1000-12-15");
         for ($i=0; $i < 3; $i++) { 
-            $this->entityManager = $this->kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
+            $this->entityManager = self::$kernel->getContainer()
+                                                ->get('doctrine')
+                                                ->getManager();
             $repository = $this->manager->getRepository(CPULogs::class);
             $testTarget = new LogService($this->entityManager);
             $allGames = count($repository->findBy(["date" => new DateTime($testCase[$i])]));
