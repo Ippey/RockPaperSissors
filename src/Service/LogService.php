@@ -17,8 +17,7 @@ class LogService
         if ($todayActions == 0) {
             return 0;
         }
-        $goos = count($repository->findBy(['date' => new DateTime($date), 'hand' => 0]));
-        return (float)$goos / ((float)$todayActions) * 100;
+        return (count($repository->findBy(["date" => new DateTime($date), "hand" => 0])) / $todayActions) * 100;
     }
 
     public function getChokiRate(string $date="now") {
@@ -28,8 +27,7 @@ class LogService
         if ($todayActions == 0) {
             return 0;
         }
-        $chokis = count($repository->findBy(['date' => new DateTime($date), 'hand' => 1]));
-        return ((float)$chokis / (float)$todayActions) * 100;
+        return (count($repository->findBy(["date" => new DateTime($date), "hand" => 1])) / $todayActions) * 100;
     }
     public function getParRate(string $date="now") {
         $repository = $this->managerRegistry->getRepository(CPULogs::class);
@@ -38,8 +36,7 @@ class LogService
         if ($todayActions == 0) {
             return 0;
         }
-        $pars = count($repository->findBy(['date' => new DateTime($date), 'hand' => 2]));
-        return ((float)$pars / (float)$todayActions) * 100;
+        return (count($repository->findBy(["date" => new DateTime($date), "hand" => 2])) / $todayActions) * 100;
     }
 
     public function __construct(EntityManagerInterface $managerRegistry) {

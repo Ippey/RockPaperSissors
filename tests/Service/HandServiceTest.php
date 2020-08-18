@@ -8,9 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class HandServiceTest extends KernelTestCase
 {
-    
+    private $entityManager;
+
     public function test_handservice()
     {
+        $kernel = self::bootKernel();
         $this->entityManager = self::$kernel->getContainer()
                                             ->get('doctrine')
                                             ->getManager();
