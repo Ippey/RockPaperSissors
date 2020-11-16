@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}じゃんけん画面{% endblock %}</title>
+    </head>
+    <body>
+        {% block body %}
+            <p>10ptを使ってじゃんけんできます。勝った場合のみ15ptもらえます。</p>
+            {% if user.point >= 10 %}
+                {{ form_start(form) }}
+                {{ form_label(form.myResult) }}
+                {{ form_widget(form.myResult) }}
+                <button type="submit" name="submit">勝負</button>
+                {{ form_end(form) }}
+            {% else %}
+                <p>「{{ user.name }}」のポイントが10未満なのでじゃんけんできません。</p>
+            {% endif %}
+                <p>本日のCPUが出した割合</p>
+                <p id="result">グー：{{ rockRate|number_format }}％　パー：{{ paperRate|number_format }}％　チョキ：{{ sissorsRate|number_format }}％</p>
+                <p>ユーザーポイント　　{{ user.point }}pt</p>
+                <a href="{{ path('reset', {'id': user.id}) }}" class="button">リセット</a>
+        {% endblock %}
+    </body>
+</html>
