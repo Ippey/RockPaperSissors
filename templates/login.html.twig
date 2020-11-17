@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}ユーザー登録画面{% endblock %}</title>
+    </head>
+    <body>
+        {% block body %}
+            <p>ユーザー登録フォーム</p>
+            {{ form_start(form) }}
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+            <button type="submit" name="submit">登録</button>
+            {{ form_end(form) }}
+        {% endblock %}
+    </body>
+</html>
