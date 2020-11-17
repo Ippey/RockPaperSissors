@@ -6,8 +6,8 @@
     </head>
     <body>
         {% block body %}
-            <p>10ptを使ってじゃんけんできます。勝った場合のみ15ptもらえます。</p>
             {% if user.point >= 10 %}
+                <p>10ptを使ってじゃんけんできます。勝った場合のみ15ptもらえます。</p>
                 {{ form_start(form) }}
                 {{ form_label(form.myResult) }}
                 {{ form_widget(form.myResult) }}
